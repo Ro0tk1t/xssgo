@@ -18,6 +18,17 @@ func initHeader(req *http.Request){
 }
 
 func HttpDo(method, url, data string, headers map[string]string)(bodyStr string, err error) {
+    methodList := []string{"GET", "POST"}
+    method = strings.ToUpper(method)
+    flag := false
+    for _, value := range methodList{
+        if value == method{
+            flag = true
+        }
+    }
+    if flag == false{
+        return
+    }
     client := &http.Client{}
     req, err := http.NewRequest(method, url, strings.NewReader(data))
     if err != nil {
