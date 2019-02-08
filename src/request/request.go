@@ -22,7 +22,7 @@ func HttpDo(method, url, data string, headers map[string]string)(bodyStr string,
     req, err := http.NewRequest(method, url, strings.NewReader(data))
     if err != nil {
         fmt.Println(err)
-        return string(nil), err
+        return "", err
     }
     initHeader(req)
     for key, value := range headers {
@@ -33,7 +33,7 @@ func HttpDo(method, url, data string, headers map[string]string)(bodyStr string,
     body, err := ioutil.ReadAll(resp.Body)
     if err != nil {
         fmt.Println(err)
-        return string(nil), err
+        return "", err
     }
     bodyStr = string(body)
     return

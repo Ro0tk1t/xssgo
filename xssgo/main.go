@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
-import "cli"
+import (
+    "cli"
+    "fmt"
+    "request"
+)
 
 type Result struct{
     page string
@@ -21,7 +24,8 @@ type Conf struct{
 func main(){
     parsed := cli.Cli()
     conf := Conf{}
-    conf.input = parsed
-    fmt.Println(conf.input.url)
+    conf.input = *parsed
+    body, _ := request.HttpDo("GET", conf.input.Url, "", map[string]string{})
+    fmt.Println(body)
     return
 }

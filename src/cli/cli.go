@@ -6,10 +6,10 @@ import (
 
 
 type Parse struct{
-    url string
-    data string
-    file string
-    spider bool
+    Url string
+    Data string
+    File string
+    Spider bool
 }
 
 func Cli()(parsed *Parse){
@@ -27,10 +27,10 @@ func Cli()(parsed *Parse){
 	flag.Parse()
 
     Parsed := &Parse{}
-    Parsed.url = url
-    Parsed.data = data
-    Parsed.file = file
-    Parsed.spider = spider
+    Parsed.Url = url
+    Parsed.Data = data
+    Parsed.File = file
+    Parsed.Spider = spider
 
-    return
+    return Parsed
 }
