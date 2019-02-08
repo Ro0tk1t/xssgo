@@ -11,17 +11,17 @@ type Result struct{
 }
 
 type Conf struct{
-    input map
+    input cli.Parse
     url string
     dict string
     spider bool
     results *Result
 }
 
-pased := cli.Cli()
-conf := Conf()
-conf.input = pased
-
 func main(){
+    parsed := cli.Cli()
+    conf := Conf{}
+    conf.input = parsed
+    fmt.Println(conf.input.url)
     return
 }

@@ -2,7 +2,6 @@ package cli
 
 import (
 	"flag"
-	"fmt"
 )
 
 
@@ -13,7 +12,7 @@ type Parse struct{
     spider bool
 }
 
-func cli(){
+func Cli()(parsed *Parse){
 	var (
 		url string
 		data string
@@ -24,15 +23,14 @@ func cli(){
 	flag.StringVar(&url, "u", "http://example.com", "Target URL")
 	flag.StringVar(&data, "d", "", "POST data")
 	flag.StringVar(&file, "f", "", "fuzz keyword file")
-    flag.BoolVar(&spider, "s", false, 'use spider')
+    flag.BoolVar(&spider, "s", false, "use spider")
 	flag.Parse()
 
-    Parsed := &Parse
+    Parsed := &Parse{}
     Parsed.url = url
     Parsed.data = data
     Parsed.file = file
     Parsed.spider = spider
 
-    return Parsed
+    return
 }
-
