@@ -2,7 +2,7 @@ package request
 
 import (
     "fmt"
-    "io/ioutil"
+    "io"
     "net/http"
     "strings"
 )
@@ -17,7 +17,7 @@ func initHeader(req *http.Request){
     return
 }
 
-func HttpDo(method, url, data string, headers map[string]string)(bodyStr string, err error) {
+func HttpDo(method, url, data string, headers map[string]string)(body io.Reader, err error) {
     methodList := []string{"GET", "POST"}
     method = strings.ToUpper(method)
     flag := false
@@ -33,7 +33,7 @@ func HttpDo(method, url, data string, headers map[string]string)(bodyStr string,
     req, err := http.NewRequest(method, url, strings.NewReader(data))
     if err != nil {
         fmt.Println(err)
-        return "", err
+        return strings.NewReader(""), err
     }
     initHeader(req)
     for key, value := range headers {
@@ -41,11 +41,6 @@ func HttpDo(method, url, data string, headers map[string]string)(bodyStr string,
     }
     resp, err := client.Do(req)
     defer resp.Body.Close()
-    body, err := ioutil.ReadAll(resp.Body)
-    if err != nil {
-        fmt.Println(err)
-        return "", err
-    }
-    bodyStr = string(body)
+    body = resp.Body
     return
 }
