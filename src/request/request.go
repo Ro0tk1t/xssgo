@@ -1,8 +1,8 @@
 package request
 
 import (
+    "errors"
     "fmt"
-    "io"
     "net/http"
     "strings"
 )
@@ -17,7 +17,7 @@ func initHeader(req *http.Request){
     return
 }
 
-func HttpDo(method, url, data string, headers map[string]string)(body io.Reader, err error) {
+func HttpDo(method, url, data string, headers map[string]string)(*http.Response, error) {
     methodList := []string{"GET", "POST"}
     method = strings.ToUpper(method)
     flag := false
@@ -27,20 +27,22 @@ func HttpDo(method, url, data string, headers map[string]string)(body io.Reader,
         }
     }
     if flag == false{
-        return
+        return nil, errors.New("Invalide method")
     }
     client := &http.Client{}
     req, err := http.NewRequest(method, url, strings.NewReader(data))
     if err != nil {
         fmt.Println(err)
-        return strings.NewReader(""), err
+        return nil, err
     }
     initHeader(req)
     for key, value := range headers {
         makeHeader(req, key, value)
     }
     resp, err := client.Do(req)
-    defer resp.Body.Close()
-    body = resp.Body
-    return
+    if err != nil{
+        return nil, err
+    }
+    //defer resp.Body.Close()
+    return resp, nil
 }
